@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Users</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <script>
+        function deleteUser(id){ if(confirm("Are you sure?")) { window.location.href = "/users/delete?id=" + id; }}
+    </script>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <script th:if="${error}" th:inline="javascript">alert("Error: " + [[${errorMessage}]]);</script>
+    <h1>User management</h1>
+    <form id="search" name="search" method="get" action="/users">
+        <label for="email">Email: </label>
+        <input type="text" id="email" name="email">
+        <label for="name">Name: </label>
+        <input type="text" id="name" name="name">
+        <label for="phone">Phone number: </label>
+        <input type="text" id="phone" name="phone">
+        <input type="submit" value="Search">
+    </form>
+    <script>
+        var form = document.getElementById('search');
+        form.addEventListener('submit', function () {
+            var inputs = form.getElementsByTagName('input');
+            for(var index = 0; index < inputs.length; ++index) {
+                var input = inputs[index];
+                if(input.name && !input.value) {
+                    input.name = '';
+                }
+            }
+        });
+    </script>
+    <a href="/users/create" class="button">Create new</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u: ${allUsers}">
+            <td th:text="${u.ID}"></td>
+            <td th:text="${u.email}"></td>
+            <td th:text="${u.name}"></td>
+            <td th:text="${u.phoneNumber}"></td>
+            <td><a href="#" th:href="@{/users/edit(id=${u.ID})}" class="button">edit</a> <button th:onclick="deleteUser([[${u.ID}]])">delete</button></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
