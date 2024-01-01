@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Editing feature</title>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <h1>Editing feature</h1>
+    <form method="post" th:action="@{/features/edit}" th:object="${feature}">
+        <input type="hidden" th:field="*{id}"/>
+        <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" th:field="*{name}"/>
+        </div>
+        <div>
+            <label for="baseRentPrice">Base rent price:</label>
+            <input type="number" name="baseRentPrice" id="baseRentPrice" th:field="*{priceIncrease}"/>
+        </div>
+        <input type="submit"><input type="reset">
+    </form>
+</main>
+</body>
+</html>

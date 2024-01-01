@@ -76,7 +76,7 @@ public class MakeController {
             makeService.delete();
         } catch (HttpClientErrorException.NotFound e) {
             model.addAttribute("error", true);
-            model.addAttribute("errorMessage", String.format("User with id %d was not found", id));
+            model.addAttribute("errorMessage", String.format("Make with id %d was not found", id));
         }
         return list(model);
     }

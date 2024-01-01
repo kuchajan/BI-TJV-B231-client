@@ -8,7 +8,6 @@ import org.springframework.web.client.RestClient;
 
 import java.util.Map;
 
-// public class UserClientImpl extends CrudClientImpl<User> implements UserClient
 @Component
 public class MakeClientImpl extends CrudClientImpl<Make> implements MakeClient {
     private final String baseUrl;

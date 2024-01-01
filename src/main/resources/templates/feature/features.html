@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Features</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <script>
+        function deleteFeature(id){ if(confirm("Are you sure?")) { window.location.href = "/features/delete?id=" + id; }}
+    </script>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <script th:if="${error}" th:inline="javascript">alert("Error: " + [[${errorMessage}]]);</script>
+    <h1>Feature management</h1>
+    <a href="/features/create" class="button">Create new</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price Increase</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="f: ${allFeatures}">
+            <td th:text="${f.id}"></td>
+            <td th:text="${f.name}"></td>
+            <td th:text="${f.priceIncrease}"></td>
+            <td><a href="#" th:href="@{/features/edit(id=${f.id})}" class="button">edit</a> <button th:onclick="deleteFeature([[${f.id}]])">delete</button></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
