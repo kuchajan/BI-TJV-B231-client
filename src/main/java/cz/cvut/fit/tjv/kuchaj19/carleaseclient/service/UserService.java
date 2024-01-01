@@ -20,18 +20,18 @@ public class UserService {
         return currentUser != null;
     }
 
-    public void setCurrentUser(Long ID) {
-        this.currentUser = ID;
-        userClient.setCurrentUser(ID);
+    public void setCurrentUser(Long id) {
+        this.currentUser = id;
+        userClient.setCurrentClient(id);
     }
     public void setFilteredUsers(Optional<String> email, Optional<String> name, Optional<String> phone) {
-        userClient.setFilteredUsers(email,name,phone);
+        userClient.setFilteredClient(email,name,phone);
     }
     public Optional<User> readOne() {
-        return userClient.readOne();
+        return userClient.getOne();
     }
     public Collection<User> readAll() {
-        return userClient.readAll();
+        return userClient.getAll();
     }
     public Collection<User> readFiltered() {
         return userClient.readFiltered();

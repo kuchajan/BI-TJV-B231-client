@@ -1,24 +1,24 @@
 package cz.cvut.fit.tjv.kuchaj19.carleaseclient.model;
 
 public class User {
-    private Long ID;
+    private Long id;
     private String email;
     private String name;
     private String phoneNumber;
 
-    public User(Long ID, String email, String name, String phoneNumber) {
-        this.ID = ID;
+    public User(Long id, String email, String name, String phoneNumber) {
+        this.id = id;
         this.email = email;
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getID() {
-        return ID;
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
