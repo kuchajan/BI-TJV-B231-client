@@ -14,12 +14,9 @@
     <a href="/features">Features</a> |
 </nav>
 <main>
-    <div th:if="${error}">
-        <span>ERROR</span>
-    </div>
     <h1>Editing user</h1>
     <form method="post" th:action="@{/users/edit}" th:object="${user}">
-        <input type="hidden" th:field="*{ID}"/>
+        <input type="hidden" th:field="*{id}"/>
         <div>
             <label for="email">EMail</label>
             <input type="text" name="email" id="email" th:field="*{email}"/>

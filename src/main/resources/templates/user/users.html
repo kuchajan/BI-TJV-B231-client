@@ -67,11 +67,11 @@
         </thead>
         <tbody>
         <tr th:each="u: ${allUsers}">
-            <td th:text="${u.ID}"></td>
+            <td th:text="${u.id}"></td>
             <td th:text="${u.email}"></td>
             <td th:text="${u.name}"></td>
             <td th:text="${u.phoneNumber}"></td>
-            <td><a href="#" th:href="@{/users/edit(id=${u.ID})}" class="button">edit</a> <button th:onclick="deleteUser([[${u.ID}]])">delete</button></td>
+            <td><a href="#" th:href="@{/users/edit(id=${u.id})}" class="button">edit</a> <button th:onclick="deleteUser([[${u.id}]])">delete</button></td>
         </tr>
         </tbody>
     </table>

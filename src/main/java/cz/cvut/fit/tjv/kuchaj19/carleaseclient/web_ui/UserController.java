@@ -26,13 +26,13 @@ public class UserController {
         } else {
             model.addAttribute("allUsers", userService.readAll());
         }
-        return "users";
+        return "user/users";
     }
 
 
     private String list(Model model) {
         model.addAttribute("allUsers", userService.readAll());
-        return "users";
+        return "user/users";
     }
 
     @GetMapping("/edit")
@@ -46,12 +46,12 @@ public class UserController {
         }
 
         model.addAttribute("user",user.get());
-        return "editUser";
+        return "user/editUser";
     }
 
     @PostMapping("/edit")
     public String editSubmit(Model model, @ModelAttribute User data) {
-        userService.setCurrentUser(data.getID());
+        userService.setCurrentUser(data.getId());
         try {
             userService.update(data);
         } catch (HttpClientErrorException.NotFound e) {
@@ -63,7 +63,7 @@ public class UserController {
 
     @GetMapping("/create")
     public String create() {
-        return "createUser";
+        return "user/createUser";
     }
 
     @PostMapping("/create")
