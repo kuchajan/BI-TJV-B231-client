@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Makes</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <script>
+        function deleteMake(id){ if(confirm("Are you sure?")) { window.location.href = "/makes/delete?id=" + id; }}
+    </script>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <script th:if="${error}" th:inline="javascript">alert("Error: " + [[${errorMessage}]]);</script>
+    <h1>Make management</h1>
+    <a href="/makes/create" class="button">Create new</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Base Rent Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="m: ${allMakes}">
+            <td th:text="${m.id}"></td>
+            <td th:text="${m.name}"></td>
+            <td th:text="${m.baseRentPrice}"></td>
+            <td><a href="#" th:href="@{/makes/edit(id=${m.id})}" class="button">edit</a> <button th:onclick="deleteMake([[${m.id}]])">delete</button></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
