@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Editing car</title>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <h1>Editing car</h1>
+    <form method="post" th:action="@{/cars/edit}" th:object="${car}">
+        <input type="hidden" th:field="*{id}">
+        <label for="registrationPlate">Registration plate: </label>
+        <input type="text" id="registrationPlate" name="registrationPlate" th:field="*{registrationPlate}">
+        <p>Make:</p>
+        <div th:each="m: ${allMakes}">
+            <input th:if="${m.id} == *{make.id}" type="radio" name="make" th:id="'make'+${m.id}" th:value="${m.id}" checked="checked">
+            <input th:unless="${m.id} == *{make.id}" type="radio" name="make" th:id="'make'+${m.id}" th:value="${m.id}">
+            <label th:text = "${m.name} + ' - ' + ${m.baseRentPrice}" th:for="'make'+${m.id}"></label>
+        </div>
+        <p>Features:</p>
+        <div th:each="f: *{features}">
+            <input type="checkbox" name="features" th:id="'feature'+${f.id}" th:value="${f.id}" checked="checked">
+            <label th:text = "${f.name} + ' - ' + ${f.priceIncrease}" th:for="'feature'+${f.id}"></label>
+        </div>
+        <div th:each="g: ${remainingFeatures}">
+            <input type="checkbox" name="features" th:id="'feature'+${g.id}" th:value="${g.id}">
+            <label th:text = "${g.name} + ' - ' + ${g.priceIncrease}" th:for="'feature'+${g.id}"></label>
+        </div>
+        <input type="submit"><input type="reset">
+    </form>
+</main>
+</body>
+</html>

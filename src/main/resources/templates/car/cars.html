@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Cars</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <script>
+        function deleteCar(id){ if(confirm("Are you sure?")) { window.location.href = "/cars/delete?id=" + id; }}
+    </script>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <script th:if="${error}" th:inline="javascript">alert("Error: " + [[${errorMessage}]]);</script>
+    <h1>Car management</h1>
+    <form id="search" name="search" method="get" action="/cars">
+        <label for="maxPrice">Max price:</label>
+        <input type="number" name="maxPrice" id="maxPrice">
+        <label for="minPrice">Min price:</label>
+        <input type="number" name="minPrice" id="minPrice">
+        <label for="timeStart">Unix time start:</label>
+        <input type="number" name="timeStart" id="timeStart">
+        <label for="timeEnd">Unix time end:</label>
+        <input type="number" name="timeEnd" id="timeEnd">
+        <p>Makes:</p>
+        <div th:each="m: ${allMakes}">
+            <input type="checkbox" name="make" th:id="'make'+${m.id}" th:value="${m.id}">
+            <label th:text = "${m.name}" th:for="'make'+${m.id}"></label>
+        </div>
+        <p>Features:</p>
+        <div th:each="f: ${allFeatures}">
+            <input type="checkbox" name="feature" th:id="'feature'+${f.id}" th:value="${f.id}">
+            <label th:text = "${f.name}" th:for="'feature'+${f.id}"></label>
+        </div>
+        <input type="submit" value="Search">
+    </form>
+    <script>
+        var form = document.getElementById('search');
+        form.addEventListener('submit', function () {
+            var inputs = form.getElementsByTagName('input');
+            for(var index = 0; index < inputs.length; ++index) {
+                var input = inputs[index];
+                if(input.name && !input.value) {
+                    input.name = '';
+                }
+            }
+        });
+    </script>
+    <a href="/cars/create" class="button">Create new</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Registration Plate</th>
+            <th>Make</th>
+            <th>Features</th>
+            <th>Price per day</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c: ${allCars}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.registrationPlate}"></td>
+            <td th:text="${c.make.name}"></td>
+            <td><div th:each="f: ${c.features}"><p th:text="${f.name}"></p></div></td>
+            <td th:text="${c.price}"></td>
+            <td><a href="#" th:href="@{/reservations/create(carReserved=${c.id})}">Reserve</a> <a href="#" th:href="@{/cars/edit(id=${c.id})}" class="button">Edit</a> <button th:onclick="deleteCar([[${c.id}]])">Delete</button></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Creating car</title>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <h1>Creating car</h1>
+    <form method="post" th:action="@{/cars/create}" th:object="${car}">
+        <label for="registrationPlate">Registration plate: </label>
+        <input type="text" id="registrationPlate" name="registrationPlate">
+        <p>Make:</p>
+        <div th:each="m: ${allMakes}">
+            <input type="radio" name="make" th:id="'make'+${m.id}" th:value="${m.id}">
+            <label th:text = "${m.name} + ' - ' + ${m.baseRentPrice}" th:for="'make'+${m.id}"></label>
+        </div>
+        <p>Features:</p>
+        <div th:each="f: ${allFeatures}">
+            <input type="checkbox" name="features" th:id="'feature'+${f.id}" th:value="${f.id}">
+            <label th:text = "${f.name} + ' - ' + ${f.priceIncrease}" th:for="'feature'+${f.id}"></label>
+        </div>
+        <input type="submit"><input type="reset">
+    </form>
+</main>
+</body>
+</html>
