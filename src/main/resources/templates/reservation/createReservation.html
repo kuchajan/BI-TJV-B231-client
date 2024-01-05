@@ -28,6 +28,7 @@
     <a href="/features">Features</a> |
 </nav>
 <main>
+    <script th:if="${error}" th:inline="javascript">alert("Error: " + [[${errorMessage}]]);</script>
     <h1>Creating reservation</h1>
     <p>Please specify a start of the reservation and it's end. To help narrow down the desired car, you can select the desired makes, features, minimal and maximum price.</p>
     <form id="search" name="search" method="get" action="/reservations/create">
