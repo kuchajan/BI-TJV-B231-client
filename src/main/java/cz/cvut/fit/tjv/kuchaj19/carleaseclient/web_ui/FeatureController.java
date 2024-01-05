@@ -77,6 +77,9 @@ public class FeatureController {
         } catch (HttpClientErrorException.NotFound e) {
             model.addAttribute("error", true);
             model.addAttribute("errorMessage", String.format("Feature with id %d was not found", id));
+        } catch (HttpClientErrorException.Forbidden e) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMessage", "Not allowed to delete this feature, it is used in a car");
         }
         return list(model);
     }

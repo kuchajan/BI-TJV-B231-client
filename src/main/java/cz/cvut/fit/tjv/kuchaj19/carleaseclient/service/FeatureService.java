@@ -19,6 +19,14 @@ public class FeatureService {
     public void setCurrentFeature(Long currentFeature) {
         featureClient.setCurrentClient(currentFeature);
     }
+
+    public void setFilteredFeatures(Optional<Long> carId, Optional<Boolean> inverse) {
+        featureClient.setFilteredClient(carId, inverse);
+    }
+
+    public Collection<Feature> readFiltered() {
+        return featureClient.readFiltered();
+    }
     public Optional<Feature> readOne() {
         return featureClient.getOne();
     }
