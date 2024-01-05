@@ -68,8 +68,8 @@ public class CarController {
         }
 
         model.addAttribute("allMakes", makeService.readAll());
-        Collection<Feature> remainingFeatures = featureService.readAll().stream().filter(x -> !car.get().featureContained(x.getId())).collect(Collectors.toSet());
-
+        featureService.setFilteredFeatures(Optional.of(id), Optional.of(true));
+        Collection<Feature> remainingFeatures = featureService.readFiltered();
         model.addAttribute("remainingFeatures", remainingFeatures);
         model.addAttribute("car",car.get());
 
@@ -80,7 +80,7 @@ public class CarController {
     public String editSubmit(Model model, @ModelAttribute CarDTO data) {
         carService.setCurrentCar(data.getId());
         try {
-            carService.update(data.toCar());
+            carService.update(data);
         } catch (HttpClientErrorException.NotFound e) {
             model.addAttribute("error", true);
             model.addAttribute("errorMessage", "Car was not found");
@@ -98,7 +98,7 @@ public class CarController {
     @PostMapping("/create")
     public String createSubmit(Model model, @ModelAttribute CarDTO data) {
         try {
-            carService.create(data.toCar());
+            carService.create(data);
         } catch (HttpClientErrorException.Conflict e) {
             model.addAttribute("error", true);
             model.addAttribute("errorMessage", "There was a conflict with another existing car");
@@ -111,12 +111,15 @@ public class CarController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam Long id) {
+        carService.setCurrentCar(id);
         try {
-            carService.setCurrentCar(id);
             carService.delete();
         } catch (HttpClientErrorException.NotFound e) {
             model.addAttribute("error", true);
             model.addAttribute("errorMessage", String.format("Car with id %d was not found", id));
+        } catch (HttpClientErrorException.Forbidden e) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMessage", "Not allowed to delete this car, it is used in a reservation");
         }
         return list(model);
     }

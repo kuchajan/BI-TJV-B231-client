@@ -57,18 +57,4 @@ public class CarDTO {
     public void setPrice(Long price) {
         this.price = price;
     }
-
-    public Car toCar() {
-        Collection<Feature> featureCollection = new HashSet<Feature>();
-        if(features != null) {
-            for (Long featureId :
-                    features) {
-                featureCollection.add(new Feature(featureId, null, null));
-            }
-        }
-        if(make == null) {
-            throw new IllegalArgumentException();
-        }
-        return new Car(id,registrationPlate,featureCollection,new Make(make, null, null), price);
-    }
 }
