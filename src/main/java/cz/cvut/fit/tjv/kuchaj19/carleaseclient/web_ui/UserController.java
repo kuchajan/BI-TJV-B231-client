@@ -88,6 +88,9 @@ public class UserController {
         } catch (HttpClientErrorException.NotFound e) {
             model.addAttribute("error", true);
             model.addAttribute("errorMessage", String.format("User with id %d was not found", id));
+        } catch (HttpClientErrorException.Forbidden e) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMessage", "Not allowed to delete this user, it is used in a reservation");
         }
         return list(model);
     }

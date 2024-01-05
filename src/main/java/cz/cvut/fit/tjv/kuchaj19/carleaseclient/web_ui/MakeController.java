@@ -77,6 +77,9 @@ public class MakeController {
         } catch (HttpClientErrorException.NotFound e) {
             model.addAttribute("error", true);
             model.addAttribute("errorMessage", String.format("Make with id %d was not found", id));
+        } catch (HttpClientErrorException.Forbidden e) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMessage", "Not allowed to delete this make, it is used in a car");
         }
         return list(model);
     }
