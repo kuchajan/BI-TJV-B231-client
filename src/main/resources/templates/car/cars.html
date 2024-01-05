@@ -85,7 +85,7 @@
             <td th:text="${c.make.name}"></td>
             <td><div th:each="f: ${c.features}"><p th:text="${f.name}"></p></div></td>
             <td th:text="${c.price}"></td>
-            <td><a href="#" th:href="@{/reservations/create(carReserved=${c.id})}">Reserve</a> <a href="#" th:href="@{/cars/edit(id=${c.id})}" class="button">Edit</a> <button th:onclick="deleteCar([[${c.id}]])">Delete</button></td>
+            <td><a href="#" th:href="@{/cars/edit(id=${c.id})}" class="button">Edit</a> <button th:onclick="deleteCar([[${c.id}]])">Delete</button></td>
         </tr>
         </tbody>
     </table>

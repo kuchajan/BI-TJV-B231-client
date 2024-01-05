@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Reservations</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <script>
+        function deleteReservation(id){ if(confirm("Are you sure?")) { window.location.href = "/reservations/delete?id=" + id; }}
+    </script>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <script th:if="${error}" th:inline="javascript">alert("Error: " + [[${errorMessage}]]);</script>
+    <h1>Reservation management</h1>
+    <form id="search" name="search" method="get" action="/cars">
+        <label for="car">Car ID:</label>
+        <input type="number" name="car" id="car">
+        <label for="user">User ID:</label>
+        <input type="number" name="user" id="user">
+        <input type="submit" value="Search">
+    </form>
+    <script>
+        var form = document.getElementById('search');
+        form.addEventListener('submit', function () {
+            var inputs = form.getElementsByTagName('input');
+            for(var index = 0; index < inputs.length; ++index) {
+                var input = inputs[index];
+                if(input.name && !input.value) {
+                    input.name = '';
+                }
+            }
+        });
+    </script>
+    <a href="/reservations/create" class="button">Create new</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Reservation maker ID</th>
+            <th>Car reserved ID</th>
+            <th>Unix time start</th>
+            <th>Unix time end</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r: ${allReservations}">
+            <td th:text="${r.id}"></td>
+            <td th:text="${r.reservationMaker.id}"></td>
+            <td th:text="${r.carReserved.id}"></td>
+            <td th:text="${r.timeStart}"></td>
+            <td th:text="${r.timeEnd}"></td>
+            <td th:text="${r.price}"></td>
+            <td><a href="#" th:href="@{/reservations/edit(id=${r.id})}" class="button">Edit</a> <button th:onclick="deleteReservation([[${r.id}]])">Delete</button></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

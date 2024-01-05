@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Creating reservation</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <h1>Creating reservation</h1>
+    <p>Please specify a start of the reservation and it's end. To help narrow down the desired car, you can select the desired makes, features, minimal and maximum price.</p>
+    <form id="search" name="search" method="get" action="/reservations/create">
+        <label for="timeStartSearch">Unix time start:</label>
+        <input type="number" name="timeStart" id="timeStartSearch">
+        <label for="timeEndSearch">Unix time end:</label>
+        <input type="number" name="timeEnd" id="timeEndSearch">
+
+        <label for="minPrice">Min price:</label>
+        <input type="number" name="minPrice" id="minPrice">
+        <label for="maxPrice">Max price:</label>
+        <input type="number" name="maxPrice" id="maxPrice">
+
+        <p>Makes:</p>
+        <div th:each="m: ${allMakes}">
+            <input type="checkbox" name="make" th:id="'make'+${m.id}" th:value="${m.id}">
+            <label th:text = "${m.name}" th:for="'make'+${m.id}"></label>
+        </div>
+        <p>Features:</p>
+        <div th:each="f: ${allFeatures}">
+            <input type="checkbox" name="feature" th:id="'feature'+${f.id}" th:value="${f.id}">
+            <label th:text = "${f.name}" th:for="'feature'+${f.id}"></label>
+        </div>
+        <input type="submit" value="Search">
+    </form>
+    <script>
+        var form = document.getElementById('search');
+        form.addEventListener('submit', function () {
+            var inputs = form.getElementsByTagName('input');
+            for(var index = 0; index < inputs.length; ++index) {
+                var input = inputs[index];
+                if(input.name && !input.value) {
+                    input.name = '';
+                }
+            }
+        });
+    </script>
+    <form th:if="${searched}" method="post" th:action="@{/reservations/create}" th:object="${Reservation}">
+        <input type="hidden" name="timeStart" id="timeStart" th:value="${timeStart}"/>
+        <input type="hidden" name="timeEnd" id="timeEnd" th:value="${timeEnd}"/>
+        <table>
+            <thead>
+            <tr>
+                <th>Select</th>
+                <th>ID</th>
+                <th>Registration Plate</th>
+                <th>Make</th>
+                <th>Features</th>
+                <th>Price per day</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c: ${allCars}">
+                <td>
+                    <input type="radio" name="carReserved" th:id="'carReserved'+${c.id}" th:value="${c.id}">
+                    <label th:for="'carReserved'+${c.id}"></label>
+                </td>
+                <td th:text="${c.id}"></td>
+                <td th:text="${c.registrationPlate}"></td>
+                <td th:text="${c.make.name}"></td>
+                <td><div th:each="f: ${c.features}"><p th:text="${f.name}"></p></div></td>
+                <td th:text="${c.price}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Please select the reservation maker</p>
+        <div th:each="u: ${allUsers}">
+            <input type="radio" name="reservationMaker" th:id="'reservationMaker'+${u.id}" th:value="${u.id}">
+            <label th:text = "${u.id} + ': ' + ${u.name} + ' ' + ${u.email}" th:for="'reservationMaker'+${u.id}"></label>
+        </div>
+        <input type="submit"><input type="reset">
+    </form>
+</main>
+</body>
+</html>

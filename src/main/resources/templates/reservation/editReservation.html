@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org" xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Lease | Editing reservation</title>
+</head>
+<body>
+<nav>
+    <a href="/">Index</a> |
+    <a href="/users">Users</a> |
+    <a href="/reservations">Reservations</a> |
+    <a href="/cars">Cars</a> |
+    <a href="/makes">Makes</a> |
+    <a href="/features">Features</a> |
+</nav>
+<main>
+    <h1>Editing reservation</h1>
+    <form method="post" th:action="@{/reservations/edit}" th:object="${reservation}">
+        <input type="hidden" th:field="*{id}"/>
+        <label for="timeStart">Unix time start: </label>
+        <input type="number" name="timeStart" id="timeStart" th:field="*{timeStart}"/>
+        <label for="timeEnd">Unix time end: </label>
+        <input type="number" name="timeEnd" id="timeEnd" th:field="*{timeEnd}"/>
+        <p>Cars: </p>
+        <div th:each="c: ${allCars}">
+            <input th:if="${c.id} == *{carReserved.id}" type="radio" name="carReserved" th:id="'carReserved'+${c.id}" th:value="${c.id}" checked="checked">
+            <input th:unless="${c.id} == *{carReserved.id}" type="radio" name="carReserved" th:id="'carReserved'+${c.id}" th:value="${c.id}">
+            <label th:text = "${c.id} + ': ' + ${c.registrationPlate}" th:for="'carReserved'+${c.id}"></label>
+        </div>
+        <p>Users: </p>
+        <div th:each="u: ${allUsers}">
+            <input th:if="${u.id} == *{reservationMaker.id}" type="radio" name="reservationMaker" th:id="'reservationMaker'+${u.id}" th:value="${u.id}" checked="checked">
+            <input th:unless="${u.id} == *{reservationMaker.id}" type="radio" name="reservationMaker" th:id="'reservationMaker'+${u.id}" th:value="${u.id}">
+            <label th:text = "${u.id} + ': ' + ${u.name} + ' ' + ${u.email}" th:for="'reservationMaker'+${u.id}"></label>
+        </div>
+        <input type="submit"><input type="reset">
+    </form>
+</main>
+</body>
+</html>
