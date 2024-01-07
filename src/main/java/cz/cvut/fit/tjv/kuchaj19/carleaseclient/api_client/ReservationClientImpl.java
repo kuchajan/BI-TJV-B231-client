@@ -54,7 +54,7 @@ public class ReservationClientImpl extends CrudClientImpl<Reservation> implement
 
     @Override
     public void setFilteredClient(Optional<Long> user, Optional<Long> car) {
-        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl + "/user");
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl + "/reservation");
         filteredReservationClient = RestClient.create(
                 factory.builder()
                         .queryParamIfPresent("user", user)
