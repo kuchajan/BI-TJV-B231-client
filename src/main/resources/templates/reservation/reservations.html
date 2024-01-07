@@ -33,7 +33,7 @@
 <main>
     <script th:if="${error}" th:inline="javascript">alert("Error: " + [[${errorMessage}]]);</script>
     <h1>Reservation management</h1>
-    <form id="search" name="search" method="get" action="/cars">
+    <form id="search" name="search" method="get" action="/reservations">
         <label for="car">Car ID:</label>
         <input type="number" name="car" id="car">
         <label for="user">User ID:</label>
