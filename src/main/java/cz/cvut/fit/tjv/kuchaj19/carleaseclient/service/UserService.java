@@ -25,7 +25,7 @@ public class UserService {
         userClient.setCurrentClient(id);
     }
     public void setFilteredUsers(Optional<String> email, Optional<String> name, Optional<String> phone) {
-        userClient.setFilteredClient(email,name,phone);
+        userClient.setFilteredClient(email, name.map(s -> s.replace(" ", "+")),phone);
     }
     public Optional<User> readOne() {
         return userClient.getOne();
